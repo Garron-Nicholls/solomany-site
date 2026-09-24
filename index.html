@@ -47,22 +47,59 @@
   .dial .track{stroke:var(--brass-dim);opacity:.55}
   .dial .arc{stroke:var(--brass);stroke-linecap:round}
   .said .who{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
-             letter-spacing:.20em;font-size:11px;color:var(--brass);font-weight:600;
-             display:block;margin-bottom:12px}
+             letter-spacing:.14em;font-size:clamp(17px,4.2vw,23px);color:var(--brass);
+             font-weight:600;display:block;margin-bottom:14px;line-height:1}
   .said blockquote{margin:0;font-size:clamp(24px,5.6vw,34px);line-height:1.32;font-weight:300;
                    text-wrap:balance;max-width:19ch}
   .said .after{margin-top:20px;color:var(--ink-dim);font-size:17px;max-width:52ch}
 
+  /* --- the dial, carried through the page -------------------------------
+     The app's one state device, reused as structure: each section's ring is
+     filled a little further than the last, so the mark says how far down the
+     page you are rather than merely decorating the heading. The last section
+     closes the circle.
+
+     `--fill` is the resting value and is always correct with no script and no
+     animation. Where scroll-driven animations exist, `--sweep` runs from zero
+     to that value as the section comes into view, so the ring fills as you
+     arrive at it. Reduced motion keeps the resting value and skips the sweep. */
+  @property --sweep{syntax:'<number>';inherits:false;initial-value:0}
+
+  .ring{--sweep:var(--fill);width:20px;height:20px;border-radius:50%;flex:0 0 auto;
+        background:conic-gradient(var(--brass) calc(var(--sweep)*360deg),
+                                  var(--brass-dim) 0);
+        -webkit-mask:radial-gradient(closest-side,transparent 64%,#000 65%);
+        mask:radial-gradient(closest-side,transparent 64%,#000 65%)}
+  .heading{display:flex;align-items:center;gap:13px;margin:0 0 14px}
+  .heading h2{margin:0}
+
+  @supports (animation-timeline:view()){
+    @media (prefers-reduced-motion:no-preference){
+      .ring{animation:sweep linear both;animation-timeline:view();
+            animation-range:entry 15% cover 45%}
+      @keyframes sweep{from{--sweep:0}to{--sweep:var(--fill)}}
+    }
+  }
+
   /* --- the exchange --- */
-  .turns{margin-block:20px 4px;border-top:1px solid var(--rule)}
-  .turn{padding-block:15px;border-bottom:1px solid var(--rule)}
+  /* **An inset, not just an alignment — 2026-09-24.** Both turns were capped
+     at 44ch, which on a phone is wider than the screen, so each one filled the
+     full width and left-versus-right said nothing. A turn now leaves room on
+     the side it is not spoken from: that gap is what makes it read as two
+     people rather than two paragraphs. No rule between the turns either — the
+     alternation is the grouping here, and a hairline across the middle of an
+     exchange cuts it in half. */
+  .turns{margin-block:20px 4px;border-top:1px solid var(--rule);
+         border-bottom:1px solid var(--rule);padding-block:4px}
+  .turn{padding-block:13px}
   .turn .from{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
               letter-spacing:.18em;font-size:10px;font-weight:600;color:var(--ink-dim);
               display:block;margin-bottom:6px}
   .turn.you{text-align:right}
-  .turn.you q{color:var(--ink-dim);margin-left:auto}
+  .turn.you q{color:var(--ink-dim);margin-left:auto;margin-right:0}
+  .turn.coach q{margin-right:auto;margin-left:0}
   .turn.coach .from{color:var(--brass)}
-  .turn q{quotes:none;display:block;max-width:44ch;font-family:var(--voice);
+  .turn q{quotes:none;display:block;max-width:min(42ch,84%);font-family:var(--voice);
           font-size:17px;font-weight:400;text-transform:none;letter-spacing:0;
           line-height:1.5}
 
@@ -153,6 +190,10 @@
     .screens::-webkit-scrollbar{display:none}
     .screen{flex:0 0 82%;scroll-snap-align:center}
   }
+  .screen.watch{border-radius:34px;border-color:var(--rule-strong);text-align:center}
+  .screen.watch .bar{justify-content:center;gap:10px;font-size:9px}
+  .screen.watch .s-fig{font-size:52px}
+  .screen.watch .s-rule{margin-block:10px}
   .screen{border:1px solid var(--rule-strong);border-radius:22px;padding:14px 13px 16px;
           background:var(--ground);display:flex;flex-direction:column;gap:0;min-width:0}
   .screen .bar{display:flex;align-items:center;justify-content:space-between;
@@ -249,12 +290,24 @@
           Breathe, then brace before you unrack.</p>
         <div class="s-act">Log the set</div>
       </div>
+      <div class="screen watch">
+        <div class="bar"><span>9:58</span><span>·</span><span>82%</span></div>
+        <p class="s-cap">Set 3 of 4</p>
+        <div class="s-rule"></div>
+        <p class="s-fig">5</p>
+        <p class="s-figcap">reps at 82.5 kg</p>
+        <div class="s-rule"></div>
+        <div class="s-hr" style="justify-content:center"><b aria-hidden="true"></b>142 BPM</div>
+        <div class="s-rule"></div>
+        <p class="s-cap" style="margin-top:0">Rest 2:00</p>
+        <div class="s-act">Done</div>
+      </div>
     </div>
-    <p class="caption">Today, and mid-session on the phone</p>
+    <p class="caption">Today and mid-session on the phone, and the set on the wrist</p>
   </section>
 
   <section class="section">
-    <h2>It asks, and it listens</h2>
+    <div class="heading"><span class="ring" style="--fill:.28" aria-hidden="true"></span><h2>It asks, and it listens</h2></div>
     <p>You say what you want in ordinary words. Solomany builds the training to
       get you there, leads each session as you do it, and tells you afterwards
       what actually happened against what it asked for.</p>
@@ -270,7 +323,7 @@
   </section>
 
   <section class="section">
-    <h2>Twelve weeks, and what moved them</h2>
+    <div class="heading"><span class="ring" style="--fill:.43" aria-hidden="true"></span><h2>Twelve weeks, and what moved them</h2></div>
     <p>A plan is not a spreadsheet you fall behind on. It is a shape, and it
       changes when you do — an example block, and the moments that bent it.</p>
     <div class="block">
@@ -314,7 +367,7 @@
   </section>
 
   <section class="section">
-    <h2>What it does for you</h2>
+    <div class="heading"><span class="ring" style="--fill:.58" aria-hidden="true"></span><h2>What it does for you</h2></div>
     <div class="cols">
       <div class="col"><h3>Plans around what you have</h3>
         <p>The days you can train, the time you can give it, and the equipment
@@ -332,7 +385,7 @@
   </section>
 
   <section class="section">
-    <h2>Pick the voice that works on you</h2>
+    <div class="heading"><span class="ring" style="--fill:.72" aria-hidden="true"></span><h2>Pick the voice that works on you</h2></div>
     <p>Motivation is personal. The training underneath is the same; the coach
       delivering it is yours to choose, and you can change your mind whenever
       you like.</p>
@@ -345,7 +398,7 @@
   </section>
 
   <section class="section">
-    <h2>Your data</h2>
+    <div class="heading"><span class="ring" style="--fill:.86" aria-hidden="true"></span><h2>Your data</h2></div>
     <p>Coaching you means holding information about your training and your
       health, and that deserves a straight answer rather than a paragraph of
       reassurance. A full privacy notice will be published here before Solomany
@@ -354,7 +407,7 @@
   </section>
 
   <section class="section">
-    <h2>Where it is</h2>
+    <div class="heading"><span class="ring" style="--fill:1" aria-hidden="true"></span><h2>Where it is</h2></div>
     <p>Solomany is in development and not yet available. This page will say so
       when that changes.</p>
     <p>Enquiries — <a href="mailto:hello@solomany.com">hello@solomany.com</a></p>
