@@ -8,8 +8,10 @@ that is the site.
 
 ## Deploying
 
-GitHub Pages, from the default branch, root directory. `CNAME` carries the
-custom domain and Pages reads it automatically — do not delete it.
+GitHub Pages, from the default branch, root directory. The custom domain is
+set in Settings → Pages, which creates the `CNAME` file itself — it should not
+be added by hand before the DNS records exist, or Pages redirects to a domain
+that does not resolve.
 
 DNS is managed at Cloudflare.
 
