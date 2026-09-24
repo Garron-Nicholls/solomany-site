@@ -190,6 +190,22 @@
     .screens::-webkit-scrollbar{display:none}
     .screen{flex:0 0 82%;scroll-snap-align:center}
   }
+  /* The exchange is a screen in the app, so it is shown as one rather than
+     as page copy. Narrower than the page: a conversation at 760px does not
+     look like a phone. */
+  .screen.talk{max-width:420px;margin-top:22px}
+  .screen.talk .turns{border:0;margin:0;padding:0}
+  .screen.talk .turn{padding-block:11px}
+  .screen.talk .turn q{font-size:15.5px;max-width:88%}
+  .composer{display:flex;align-items:center;gap:9px;margin-top:14px;
+            padding-top:13px;border-top:1px solid var(--rule)}
+  .composer .mic{flex:0 0 auto;width:26px;height:26px;border-radius:50%;
+                 background:var(--brass);display:flex;align-items:center;
+                 justify-content:center}
+  .composer .mic svg{width:12px;height:12px;fill:var(--ground)}
+  .composer .field{flex:1;font-family:var(--voice);font-size:14px;
+                   color:var(--ink-dim);padding-block:6px;
+                   border-bottom:1px solid var(--rule)}
   .screen.watch{border-radius:34px;border-color:var(--rule-strong);text-align:center}
   .screen.watch .bar{justify-content:center;gap:10px;font-size:9px}
   .screen.watch .s-fig{font-size:52px}
@@ -311,12 +327,24 @@
     <p>You say what you want in ordinary words. Solomany builds the training to
       get you there, leads each session as you do it, and tells you afterwards
       what actually happened against what it asked for.</p>
-    <div class="turns">
-      <div class="turn you"><span class="from">You</span>
-        <q>Honestly I've got nothing today.</q></div>
-      <div class="turn coach"><span class="from">Solomany</span>
-        <q>Then let's not pretend otherwise. Do you want to take it easier, or
-          stick to the plan?</q></div>
+    <div class="screen talk">
+      <div class="bar"><span>17:42</span><span class="pill" aria-hidden="true"></span><span>96%</span></div>
+      <p class="s-cap">Talk to your coach</p>
+      <div class="turns">
+        <div class="turn coach"><span class="from">Drill Sergeant</span>
+          <q>Back squat day. Ready when you are.</q></div>
+        <div class="turn you"><span class="from">You</span>
+          <q>Honestly I've got nothing today.</q></div>
+        <div class="turn coach"><span class="from">Drill Sergeant</span>
+          <q>Then let's not pretend otherwise. Do you want to take it easier,
+            or stick to the plan?</q></div>
+      </div>
+      <div class="composer">
+        <span class="mic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg>
+        </span>
+        <span class="field">Message your coach…</span>
+      </div>
     </div>
     <p style="margin-top:16px">It never rewrites your week quietly. A reason to go
       lighter becomes a question, and the plan moves only when you say so.</p>
