@@ -245,26 +245,32 @@
      the corners are rounder across than down, which is the thing that makes
      an Apple Watch read as a watch rather than as a small phone. It keeps its
      own size instead of filling the slide, because a watch is small. */
-  /* The body, the crown and the straps. The case alone was never going to
-     read: a tall rounded rectangle is a phone whatever radius it carries. The
-     crown on the right edge and the straps above and below are what say watch,
-     and the case has to actually hold its 206x250 rather than stretching to
-     whatever the card beside it is doing — which is what it was doing. */
-  .watch-wrap{flex:0 0 auto;align-self:center;justify-self:center;position:relative;
-              width:172px;max-width:64%;scroll-snap-align:center;
-              display:flex;flex-direction:column;align-items:center;padding-block:30px}
-  .watch-wrap .strap{width:62%;height:30px;background:#16181d;
-                     border:1px solid #23272f;position:absolute;z-index:0}
-  .watch-wrap .strap.up{top:6px;border-radius:9px 9px 3px 3px;border-bottom:0}
-  .watch-wrap .strap.down{bottom:6px;border-radius:3px 3px 9px 9px;border-top:0}
-  .watch-wrap .crown{position:absolute;right:-4px;top:38%;width:5px;height:22px;
-                     border-radius:2px;background:#3c414c;z-index:0}
-  .watch-wrap .btn{position:absolute;right:-3px;top:57%;width:3.5px;height:28px;
-                   border-radius:2px;background:#272b33;z-index:0}
-  .screen.watch{position:relative;z-index:1;width:100%;aspect-ratio:206/250;
-                background:#000;border:1px solid #2a2f39;border-radius:30% / 25%;
-                padding:16px 14px;text-align:center;justify-content:center;gap:0;
-                overflow:hidden;box-shadow:0 14px 30px -16px rgba(0,0,0,.75)}
+  /* --- the watch, as look-and-feel.html draws it -------------------------
+     Not invented. The case is 178x218 with a 46px radius and an 8px bezel of
+     warm near-black; the screen sits inside it at 38px, which is 46 minus the
+     bezel. One crown on the right edge, centred, 7x34 in #2a2722. A soft drop
+     shadow underneath.
+
+     The bezel is what makes it read as a watch — an unbezelled rounded
+     rectangle is a phone at any size, which is what the previous attempt was.
+     There are no straps: the design document does not draw them and they were
+     my invention. The blacks are warm rather than the cool greys I had used;
+     the palette here has no cool greys in it. */
+  .watch-frame{flex:0 0 auto;align-self:center;justify-self:center;position:relative;
+               width:178px;max-width:62%;aspect-ratio:178/218;border-radius:46px;
+               padding:8px;background:#050403;scroll-snap-align:center;
+               box-shadow:0 14px 30px -16px rgba(0,0,0,.55)}
+  .watch-frame::after{content:"";position:absolute;right:-5px;top:50%;
+                      transform:translateY(-50%);width:7px;height:34px;
+                      background:#2a2722;border-radius:3px}
+  .screen.watch{width:100%;height:100%;border-radius:38px;overflow:hidden;
+                background:var(--ground);border:0;display:flex;
+                flex-direction:column;justify-content:center;position:relative;
+                padding:12px 12px;text-align:center;gap:0;box-shadow:none;
+                aspect-ratio:auto}
+  .screen.watch .w-top{display:flex;align-items:center;justify-content:center;
+                       gap:7px;padding-bottom:9px}
+  .screen.watch .w-top .ring{width:13px;height:13px}
   .screen.watch .bar{justify-content:center;gap:9px;font-size:8.5px;padding-bottom:8px}
   .screen.watch .s-cap{font-size:8.5px;letter-spacing:.16em;margin-top:0}
   .screen.watch .s-fig{font-size:54px;margin-top:2px}
@@ -373,14 +379,10 @@
           Breathe, then brace before you unrack.</p>
         <div class="s-act">Log the set</div>
       </div>
-      <div class="watch-wrap">
-      <span class="strap up" aria-hidden="true"></span>
-      <span class="strap down" aria-hidden="true"></span>
-      <span class="crown" aria-hidden="true"></span>
-      <span class="btn" aria-hidden="true"></span>
+      <div class="watch-frame">
       <div class="screen watch">
-        <div class="bar"><span>9:58</span></div>
-        <p class="s-cap">Set 3 of 4</p>
+        <div class="w-top"><span class="ring" style="--fill:.6" aria-hidden="true"></span>
+          <span class="s-cap" style="margin:0">Set 3 of 4</span></div>
         <p class="s-fig">5</p>
         <p class="s-figcap">reps · 82.5 kg</p>
         <div class="s-rule"></div>
