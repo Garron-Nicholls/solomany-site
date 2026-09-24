@@ -245,29 +245,28 @@
      the corners are rounder across than down, which is the thing that makes
      an Apple Watch read as a watch rather than as a small phone. It keeps its
      own size instead of filling the slide, because a watch is small. */
-  /* --- the watch, as look-and-feel.html draws it -------------------------
-     Not invented. The case is 178x218 with a 46px radius and an 8px bezel of
-     warm near-black; the screen sits inside it at 38px, which is 46 minus the
-     bezel. One crown on the right edge, centred, 7x34 in #2a2722. A soft drop
-     shadow underneath.
+  /* --- the watch, as design-language.html draws it ------------------------
+     206x250, black, a single hairline border in #2a2f39, and a 52px/58px
+     radius — elliptical on purpose, rounder across than down, which is the
+     thing that reads as a watch. 22px of padding is the bezel; there is no
+     separate frame element and no crown.
 
-     The bezel is what makes it read as a watch — an unbezelled rounded
-     rectangle is a phone at any size, which is what the previous attempt was.
-     There are no straps: the design document does not draw them and they were
-     my invention. The blacks are warm rather than the cool greys I had used;
-     the palette here has no cool greys in it. */
-  .watch-frame{flex:0 0 auto;align-self:center;justify-self:center;position:relative;
-               width:178px;max-width:62%;aspect-ratio:178/218;border-radius:46px;
-               padding:8px;background:#050403;scroll-snap-align:center;
-               box-shadow:0 14px 30px -16px rgba(0,0,0,.55)}
-  .watch-frame::after{content:"";position:absolute;right:-5px;top:50%;
-                      transform:translateY(-50%);width:7px;height:34px;
-                      background:#2a2722;border-radius:3px}
-  .screen.watch{width:100%;height:100%;border-radius:38px;overflow:hidden;
-                background:var(--ground);border:0;display:flex;
-                flex-direction:column;justify-content:center;position:relative;
-                padding:12px 12px;text-align:center;gap:0;box-shadow:none;
-                aspect-ratio:auto}
+     **No shadow.** design-language.html contains not one `box-shadow`, which
+     is the later language dropping fills and shadows in favour of hairlines.
+     An earlier pass here copied look-and-feel.html's drop-shadowed, warm-cased
+     watch with a crown — that document predates the language and was
+     superseded by it, the same way its bordered tags and dashed cards were.
+
+     This shape was already here once and never rendered: the flex row was
+     stretching it, so the aspect ratio never applied and the elliptical radius
+     was being drawn on a box twice the height it should have been. */
+  .watch-frame{flex:0 0 auto;align-self:center;justify-self:center;
+               width:206px;max-width:66%;aspect-ratio:206/250;
+               scroll-snap-align:center;display:block}
+  .screen.watch{width:100%;height:100%;background:#000;border:1px solid #2a2f39;
+                border-radius:52px/58px;padding:22px 20px;overflow:hidden;
+                display:flex;flex-direction:column;justify-content:center;
+                text-align:center;gap:0;box-shadow:none;aspect-ratio:auto}
   .screen.watch .w-top{display:flex;align-items:center;justify-content:center;
                        gap:7px;padding-bottom:9px}
   .screen.watch .w-top .ring{width:13px;height:13px}
