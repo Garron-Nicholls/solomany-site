@@ -62,7 +62,9 @@
   .turn.you{text-align:right}
   .turn.you q{color:var(--ink-dim);margin-left:auto}
   .turn.coach .from{color:var(--brass)}
-  .turn q{quotes:none;font-size:17px;display:block;max-width:44ch}
+  .turn q{quotes:none;display:block;max-width:44ch;font-family:var(--voice);
+          font-size:17px;font-weight:400;text-transform:none;letter-spacing:0;
+          line-height:1.5}
 
   /* --- twelve weeks, and what moved them --- */
   .block{margin-top:20px;overflow-x:auto;padding-bottom:4px}
@@ -97,8 +99,13 @@
   .col p{font-size:16px;margin-bottom:0}
 
   .coaches{display:flex;flex-wrap:wrap;gap:9px 24px;margin-top:6px}
-  .coach{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
-         letter-spacing:.13em;font-size:11.5px;font-weight:600}
+  /* **Named `persona`, not `coach` — 2026-09-24.** `.coach` matched both the
+     four persona chips and `<div class="turn coach">` in the conversation, so
+     the coach's own reply rendered as condensed uppercase: a heading where the
+     app speaks in serif. Reported from a phone as "the conversation does not
+     look like one, and does not look like it does in the app". */
+  .persona{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+           letter-spacing:.13em;font-size:11.5px;font-weight:600}
 
   /* --- motion, in the language's own vocabulary ---------------------------
      The dial fills the way it fills on Today; the block builds the way a block
@@ -134,7 +141,18 @@
 
   /* --- the product, drawn in its own language rather than screenshotted --- */
   .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
-  @media (max-width:620px){.screens{grid-template-columns:1fr;max-width:330px;margin-inline:auto}}
+  /* On a phone these swipe rather than stack. Each card sits at 82% so the
+     next one peeks in from the right — the peek is the affordance, so nothing
+     has to say "swipe". Snapping makes it settle on a card rather than
+     anywhere. Bled to the screen edges so the peek is not cut off by the
+     page gutter. */
+  @media (max-width:620px){
+    .screens{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;
+             margin-inline:-20px;padding-inline:20px;scrollbar-width:none;
+             -webkit-overflow-scrolling:touch}
+    .screens::-webkit-scrollbar{display:none}
+    .screen{flex:0 0 82%;scroll-snap-align:center}
+  }
   .screen{border:1px solid var(--rule-strong);border-radius:22px;padding:14px 13px 16px;
           background:var(--ground);display:flex;flex-direction:column;gap:0;min-width:0}
   .screen .bar{display:flex;align-items:center;justify-content:space-between;
@@ -319,10 +337,10 @@
       delivering it is yours to choose, and you can change your mind whenever
       you like.</p>
     <div class="coaches">
-      <span class="coach">Drill Sergeant</span>
-      <span class="coach">Scientist</span>
-      <span class="coach">Zen Coach</span>
-      <span class="coach">Gym Buddy</span>
+      <span class="persona">Drill Sergeant</span>
+      <span class="persona">Scientist</span>
+      <span class="persona">Zen Coach</span>
+      <span class="persona">Gym Buddy</span>
     </div>
   </section>
 
