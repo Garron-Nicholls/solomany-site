@@ -1,3 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Without this the page renders at a ~980px desktop width on a phone and is
+     scaled down — which is exactly how it shipped the first time. This file was
+     originally authored where a skeleton was injected for it; GitHub Pages
+     serves it verbatim, so the skeleton has to be here. -->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Solomany Fitness — a personal trainer for iPhone and Apple Watch that learns what you are training for, what gets you to turn up, and keeps both in mind as they change.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#14161c">
+<meta property="og:title" content="Solomany Fitness">
+<meta property="og:description" content="A personal trainer for iPhone and Apple Watch that keeps up with you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://solomany.com/">
 <title>Solomany Fitness</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Archivo+Narrow:wght@400;600&display=swap">
 <style>
@@ -9,7 +25,7 @@
     --structure:system-ui,"Archivo Narrow","Helvetica Neue",sans-serif;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--voice);
+  body{margin:0;padding-top:env(safe-area-inset-top,0);padding-bottom:env(safe-area-inset-bottom,0);background:var(--ground);color:var(--ink);font-family:var(--voice);
        font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
   .wrap{max-width:760px;margin:0 auto;padding-inline:20px;padding-block:0 80px}
   p{margin:0 0 15px;max-width:60ch}
@@ -50,7 +66,7 @@
 
   /* --- twelve weeks, and what moved them --- */
   .block{margin-top:20px;overflow-x:auto;padding-bottom:4px}
-  .chart{min-width:500px}
+  .chart{min-width:336px}
   .bars{display:flex;align-items:flex-end;gap:5px;height:126px;
         border-bottom:1px solid var(--rule-strong)}
   .wk{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
@@ -164,7 +180,8 @@
   footer a{border-bottom-color:transparent}
   footer a:hover{border-bottom-color:var(--brass-dim)}
 </style>
-
+</head>
+<body>
 <div class="wrap">
 
   <header class="opening">
@@ -348,3 +365,6 @@
     <a href="mailto:hello@solomany.com">hello@solomany.com</a>
   </footer>
 </div>
+
+</body>
+</html>
