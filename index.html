@@ -41,7 +41,10 @@
   .section{border-top:1px solid var(--rule);padding-block:32px}
 
   /* --- the opening: the voice leads, the dial is dim --- */
-  .opening{padding-block:58px 0}
+  /* The hero had no bottom padding, so the first rule sat hard against the
+     last line of the opening paragraph while every other section breathes at
+     32px. Matched to the rest of the page's rhythm. */
+  .opening{padding-block:58px 36px}
   .dial{flex:0 0 auto;width:44px;height:44px;margin-top:9px}
   .dial circle{fill:none;stroke-width:2.5}
   .dial .track{stroke:var(--brass-dim);opacity:.55}
@@ -205,15 +208,17 @@
   }
 
   /* --- the product, drawn in its own language rather than screenshotted --- */
-  .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+  .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px;
+           align-items:start}
   /* On a phone these swipe rather than stack. Each card sits at 82% so the
      next one peeks in from the right — the peek is the affordance, so nothing
      has to say "swipe". Snapping makes it settle on a card rather than
      anywhere. Bled to the screen edges so the peek is not cut off by the
      page gutter. */
   @media (max-width:620px){
-    .screens{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:14px;
-             margin-inline:-20px;padding-inline:20px;scrollbar-width:none;
+    .screens{display:flex;align-items:flex-start;overflow-x:auto;
+             scroll-snap-type:x mandatory;gap:14px;margin-inline:-20px;
+             padding-inline:20px;scrollbar-width:none;
              -webkit-overflow-scrolling:touch}
     .screens::-webkit-scrollbar{display:none}
     .screen{flex:0 0 82%;scroll-snap-align:center}
@@ -240,10 +245,26 @@
      the corners are rounder across than down, which is the thing that makes
      an Apple Watch read as a watch rather than as a small phone. It keeps its
      own size instead of filling the slide, because a watch is small. */
-  .screen.watch{flex:0 0 auto;width:206px;max-width:100%;aspect-ratio:206/250;
-                background:#000;border:1px solid #2a2f39;border-radius:52px/58px;
-                padding:20px 18px;margin-inline:auto;justify-self:center;
-                text-align:center;justify-content:center;gap:0}
+  /* The body, the crown and the straps. The case alone was never going to
+     read: a tall rounded rectangle is a phone whatever radius it carries. The
+     crown on the right edge and the straps above and below are what say watch,
+     and the case has to actually hold its 206x250 rather than stretching to
+     whatever the card beside it is doing — which is what it was doing. */
+  .watch-wrap{flex:0 0 auto;align-self:center;justify-self:center;position:relative;
+              width:172px;max-width:64%;scroll-snap-align:center;
+              display:flex;flex-direction:column;align-items:center;padding-block:30px}
+  .watch-wrap .strap{width:62%;height:30px;background:#16181d;
+                     border:1px solid #23272f;position:absolute;z-index:0}
+  .watch-wrap .strap.up{top:6px;border-radius:9px 9px 3px 3px;border-bottom:0}
+  .watch-wrap .strap.down{bottom:6px;border-radius:3px 3px 9px 9px;border-top:0}
+  .watch-wrap .crown{position:absolute;right:-4px;top:38%;width:5px;height:22px;
+                     border-radius:2px;background:#3c414c;z-index:0}
+  .watch-wrap .btn{position:absolute;right:-3px;top:57%;width:3.5px;height:28px;
+                   border-radius:2px;background:#272b33;z-index:0}
+  .screen.watch{position:relative;z-index:1;width:100%;aspect-ratio:206/250;
+                background:#000;border:1px solid #2a2f39;border-radius:30% / 25%;
+                padding:16px 14px;text-align:center;justify-content:center;gap:0;
+                overflow:hidden;box-shadow:0 14px 30px -16px rgba(0,0,0,.75)}
   .screen.watch .bar{justify-content:center;gap:9px;font-size:8.5px;padding-bottom:8px}
   .screen.watch .s-cap{font-size:8.5px;letter-spacing:.16em;margin-top:0}
   .screen.watch .s-fig{font-size:54px;margin-top:2px}
@@ -352,6 +373,11 @@
           Breathe, then brace before you unrack.</p>
         <div class="s-act">Log the set</div>
       </div>
+      <div class="watch-wrap">
+      <span class="strap up" aria-hidden="true"></span>
+      <span class="strap down" aria-hidden="true"></span>
+      <span class="crown" aria-hidden="true"></span>
+      <span class="btn" aria-hidden="true"></span>
       <div class="screen watch">
         <div class="bar"><span>9:58</span></div>
         <p class="s-cap">Set 3 of 4</p>
@@ -360,6 +386,7 @@
         <div class="s-rule"></div>
         <div class="s-hr"><b aria-hidden="true"></b>142 BPM</div>
         <div class="s-act">Log the set</div>
+      </div>
       </div>
     </div>
     <p class="caption">Today and mid-session on the phone, and the set on the wrist</p>
