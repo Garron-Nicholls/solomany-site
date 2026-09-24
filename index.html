@@ -1,0 +1,350 @@
+<title>Solomany Fitness</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300;6..72,400&family=Archivo+Narrow:wght@400;600&display=swap">
+<style>
+  :root{
+    --ground:#14161c; --ink:#f4efe4; --ink-dim:#8b92a3;
+    --brass:#d9a441; --brass-dim:#6b5322; --calm:#5b7a8c; --good:#6f9d74;
+    --rule:rgba(244,239,228,.13); --rule-strong:rgba(244,239,228,.30);
+    --voice:ui-serif,"Newsreader",Georgia,"Times New Roman",serif;
+    --structure:system-ui,"Archivo Narrow","Helvetica Neue",sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--voice);
+       font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:760px;margin:0 auto;padding-inline:20px;padding-block:0 80px}
+  p{margin:0 0 15px;max-width:60ch}
+  p:last-child{margin-bottom:0}
+  a{color:var(--brass);text-decoration:none;border-bottom:1px solid var(--brass-dim)}
+  a:hover{border-bottom-color:var(--brass)}
+  a:focus-visible{outline:2px solid var(--brass);outline-offset:3px;border-radius:2px}
+  .label{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+         letter-spacing:.20em;font-size:11px;color:var(--ink-dim);font-weight:600;margin:0}
+  h2{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+     letter-spacing:.04em;font-weight:600;font-size:clamp(20px,4.4vw,25px);line-height:1.08;
+     margin:0 0 14px;text-wrap:balance}
+  .section{border-top:1px solid var(--rule);padding-block:32px}
+
+  /* --- the opening: the voice leads, the dial is dim --- */
+  .opening{padding-block:62px 0;display:flex;gap:22px;align-items:flex-start}
+  .dial{flex:0 0 auto;width:44px;height:44px;margin-top:9px}
+  .dial circle{fill:none;stroke-width:2.5}
+  .dial .track{stroke:var(--brass-dim);opacity:.55}
+  .dial .arc{stroke:var(--brass);stroke-linecap:round}
+  .said .who{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+             letter-spacing:.20em;font-size:11px;color:var(--brass);font-weight:600;
+             display:block;margin-bottom:12px}
+  .said blockquote{margin:0;font-size:clamp(24px,5.6vw,34px);line-height:1.32;font-weight:300;
+                   text-wrap:balance;max-width:19ch}
+  .said .after{margin-top:20px;color:var(--ink-dim);font-size:17px;max-width:52ch}
+
+  /* --- the exchange --- */
+  .turns{margin-block:20px 4px;border-top:1px solid var(--rule)}
+  .turn{padding-block:15px;border-bottom:1px solid var(--rule)}
+  .turn .from{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+              letter-spacing:.18em;font-size:10px;font-weight:600;color:var(--ink-dim);
+              display:block;margin-bottom:6px}
+  .turn.you{text-align:right}
+  .turn.you q{color:var(--ink-dim);margin-left:auto}
+  .turn.coach .from{color:var(--brass)}
+  .turn q{quotes:none;font-size:17px;display:block;max-width:44ch}
+
+  /* --- twelve weeks, and what moved them --- */
+  .block{margin-top:20px;overflow-x:auto;padding-bottom:4px}
+  .chart{min-width:500px}
+  .bars{display:flex;align-items:flex-end;gap:5px;height:126px;
+        border-bottom:1px solid var(--rule-strong)}
+  .wk{flex:1;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+  .wk i{display:block;background:var(--brass-dim)}
+  .wk.hard i{background:var(--brass)}
+  .wk.easy i{background:var(--calm)}
+  .weeks{display:flex;gap:5px;margin-top:7px}
+  .weeks span{flex:1;text-align:center;font-family:var(--structure);font-stretch:condensed;
+              font-variant-numeric:tabular-nums;font-size:10px;color:var(--ink-dim);
+              letter-spacing:.06em;font-weight:600}
+  .keys{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:15px;padding-top:13px;
+        border-top:1px solid var(--rule)}
+  .key{display:flex;align-items:center;gap:8px;font-family:var(--structure);font-stretch:condensed;
+       text-transform:uppercase;letter-spacing:.13em;font-size:10.5px;color:var(--ink-dim);font-weight:600}
+  .key b{display:block;width:16px;height:3px}
+  .key.h b{background:var(--brass)} .key.b b{background:var(--brass-dim)} .key.e b{background:var(--calm)}
+  .moments{margin-top:20px;border-top:1px solid var(--rule)}
+  .moment{display:flex;gap:16px;padding-block:13px;border-bottom:1px solid var(--rule);align-items:baseline}
+  .moment .w{flex:0 0 62px;font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+             letter-spacing:.14em;font-size:10.5px;color:var(--brass);font-weight:600}
+  .moment .t{font-size:16px;max-width:52ch}
+  .moment .t em{font-style:italic;color:var(--ink-dim)}
+
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:26px 40px}
+  @media (max-width:640px){.cols{grid-template-columns:1fr}}
+  .col h3{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+          letter-spacing:.14em;font-size:11.5px;color:var(--brass);font-weight:600;margin:0 0 8px}
+  .col p{font-size:16px;margin-bottom:0}
+
+  .coaches{display:flex;flex-wrap:wrap;gap:9px 24px;margin-top:6px}
+  .coach{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+         letter-spacing:.13em;font-size:11.5px;font-weight:600}
+
+  /* --- motion, in the language's own vocabulary ---------------------------
+     The dial fills the way it fills on Today; the block builds the way a block
+     is built. Everything ends where it would have sat anyway, and animates
+     *from* a visible state rather than fading in from nothing — the page at
+     rest is the page complete. Reduced motion skips all of it. */
+  @media (prefers-reduced-motion:no-preference){
+    .dial .arc{animation:fill 1100ms cubic-bezier(.22,.7,.28,1) both}
+    @keyframes fill{from{stroke-dashoffset:113}to{stroke-dashoffset:72}}
+
+    .said blockquote{animation:rise 620ms cubic-bezier(.22,.7,.28,1) both 120ms}
+    .said .after{animation:rise 620ms cubic-bezier(.22,.7,.28,1) both 260ms}
+    @keyframes rise{from{opacity:.001;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+    .wk i{transform-origin:bottom;animation:grow 720ms cubic-bezier(.22,.7,.28,1) both}
+    @keyframes grow{from{transform:scaleY(.08)}to{transform:scaleY(1)}}
+    .wk:nth-child(1) i{animation-delay:40ms}   .wk:nth-child(2) i{animation-delay:90ms}
+    .wk:nth-child(3) i{animation-delay:140ms}  .wk:nth-child(4) i{animation-delay:190ms}
+    .wk:nth-child(5) i{animation-delay:240ms}  .wk:nth-child(6) i{animation-delay:290ms}
+    .wk:nth-child(7) i{animation-delay:340ms}  .wk:nth-child(8) i{animation-delay:390ms}
+    .wk:nth-child(9) i{animation-delay:440ms}  .wk:nth-child(10) i{animation-delay:490ms}
+    .wk:nth-child(11) i{animation-delay:540ms} .wk:nth-child(12) i{animation-delay:590ms}
+
+    /* The coach answers a beat after you speak, because it does. */
+    .turn.coach{animation:rise 560ms cubic-bezier(.22,.7,.28,1) both 480ms}
+
+    /* The waiting mark from the app, doing the same job here. */
+    .s-act::after{content:"";display:block;height:1px;margin-top:9px;
+                  background:linear-gradient(90deg,transparent 0,var(--brass) 18%,transparent 36%);
+                  background-size:280% 100%;animation:travel 2.6s ease-in-out infinite}
+    @keyframes travel{0%{background-position:120% 0}100%{background-position:-40% 0}}
+  }
+
+  /* --- the product, drawn in its own language rather than screenshotted --- */
+  .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px}
+  @media (max-width:620px){.screens{grid-template-columns:1fr;max-width:330px;margin-inline:auto}}
+  .screen{border:1px solid var(--rule-strong);border-radius:22px;padding:14px 13px 16px;
+          background:var(--ground);display:flex;flex-direction:column;gap:0;min-width:0}
+  .screen .bar{display:flex;align-items:center;justify-content:space-between;
+               font-family:var(--structure);font-stretch:condensed;font-size:9.5px;
+               color:var(--ink-dim);letter-spacing:.08em;font-weight:600;
+               font-variant-numeric:tabular-nums;padding-bottom:12px}
+  .screen .bar .pill{width:34px;height:4px;border-radius:2px;background:var(--rule-strong)}
+  .s-cap{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+         letter-spacing:.18em;font-size:10px;color:var(--ink-dim);font-weight:600;
+         margin-top:11px}
+  .s-voice{font-size:16px;line-height:1.42;margin:0}
+  .s-title{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+           letter-spacing:.03em;font-weight:600;font-size:20px;line-height:1.05;margin:6px 0 0}
+  .s-sub{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+         letter-spacing:.14em;font-size:10px;color:var(--ink-dim);font-weight:600;margin-top:5px}
+  .s-rule{height:1px;background:var(--rule);margin-block:12px}
+  .s-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+         padding-block:7px}
+  .s-row .n{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+            letter-spacing:.02em;font-weight:600;font-size:13px}
+  .s-row .p{font-family:var(--structure);font-stretch:condensed;font-size:11px;
+            color:var(--ink-dim);font-variant-numeric:tabular-nums;font-weight:600;
+            white-space:nowrap}
+  .s-fig{font-family:var(--structure);font-stretch:condensed;font-variant-numeric:tabular-nums;
+         font-weight:600;font-size:46px;line-height:1;margin-top:4px}
+  .s-figcap{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+            letter-spacing:.16em;font-size:9.5px;color:var(--ink-dim);font-weight:600;margin-top:5px}
+  .s-hr{display:flex;align-items:center;gap:7px;margin-top:13px;
+        font-family:var(--structure);font-stretch:condensed;font-size:10.5px;
+        letter-spacing:.1em;font-weight:600;color:var(--ink-dim)}
+  .s-hr b{display:block;width:7px;height:7px;border-radius:50%;background:var(--good)}
+  .s-act{margin-top:14px;border-top:1px solid var(--brass);padding-top:9px;text-align:center;
+         font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+         letter-spacing:.24em;font-size:10.5px;color:var(--brass);font-weight:600}
+  .caption{font-family:var(--structure);font-stretch:condensed;text-transform:uppercase;
+           letter-spacing:.16em;font-size:10px;color:var(--ink-dim);font-weight:600;
+           margin-top:16px}
+
+  .pending{color:var(--brass);font-family:var(--structure);font-stretch:condensed;
+           text-transform:uppercase;letter-spacing:.12em;font-size:10.5px;font-weight:600}
+  footer{border-top:1px solid var(--rule);padding-top:20px;margin-top:8px;
+         color:var(--ink-dim);font-size:12.5px;line-height:1.65;max-width:70ch}
+  footer a{border-bottom-color:transparent}
+  footer a:hover{border-bottom-color:var(--brass-dim)}
+</style>
+
+<div class="wrap">
+
+  <header class="opening">
+    <svg class="dial" viewBox="0 0 44 44" aria-hidden="true">
+      <circle class="track" cx="22" cy="22" r="18"></circle>
+      <circle class="arc" cx="22" cy="22" r="18" stroke-dasharray="113"
+              stroke-dashoffset="72" transform="rotate(-90 22 22)"></circle>
+    </svg>
+    <div class="said">
+      <span class="who">Solomany Fitness</span>
+      <blockquote>Tell me what you want. I'll work out how.</blockquote>
+      <p class="after">A personal trainer for iPhone and Apple&nbsp;Watch that is
+        actually personal — one that learns what you are training for, what gets
+        you to turn up, and keeps both in mind as they change.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="screens">
+      <div class="screen">
+        <div class="bar"><span>9:41</span><span class="pill" aria-hidden="true"></span><span>100%</span></div>
+        <p class="s-cap">Today</p>
+        <p class="s-voice">Back squat day. You left two reps in the tank last
+          week, so we're going after them.</p>
+        <div class="s-rule"></div>
+        <p class="s-title">Strength session</p>
+        <p class="s-sub">about 75 min · 6 movements</p>
+        <div class="s-rule"></div>
+        <div class="s-row"><span class="n">Barbell Back Squat</span><span class="p">4 × 5 · 82.5 kg</span></div>
+        <div class="s-rule"></div>
+        <div class="s-row"><span class="n">Romanian Deadlift</span><span class="p">3 × 8 · 70 kg</span></div>
+        <div class="s-rule"></div>
+        <div class="s-row"><span class="n">Bulgarian Split Squat</span><span class="p">3 × 10</span></div>
+        <div class="s-act">Review and start</div>
+      </div>
+
+      <div class="screen">
+        <div class="bar"><span>9:58</span><span class="pill" aria-hidden="true"></span><span>98%</span></div>
+        <p class="s-cap">Set 3 of 4</p>
+        <p class="s-title">Barbell Back Squat</p>
+        <div class="s-rule"></div>
+        <p class="s-fig">82.5</p>
+        <p class="s-figcap">kilograms · 5 reps</p>
+        <div class="s-hr"><b aria-hidden="true"></b>142 BPM · IN RANGE</div>
+        <div class="s-rule"></div>
+        <p class="s-voice" style="font-size:15px;color:var(--ink-dim)">Two minutes.
+          Breathe, then brace before you unrack.</p>
+        <div class="s-act">Log the set</div>
+      </div>
+    </div>
+    <p class="caption">Today, and mid-session on the phone</p>
+  </section>
+
+  <section class="section">
+    <h2>It asks, and it listens</h2>
+    <p>You say what you want in ordinary words. Solomany builds the training to
+      get you there, leads each session as you do it, and tells you afterwards
+      what actually happened against what it asked for.</p>
+    <div class="turns">
+      <div class="turn you"><span class="from">You</span>
+        <q>Honestly I've got nothing today.</q></div>
+      <div class="turn coach"><span class="from">Solomany</span>
+        <q>Then let's not pretend otherwise. Do you want to take it easier, or
+          stick to the plan?</q></div>
+    </div>
+    <p style="margin-top:16px">It never rewrites your week quietly. A reason to go
+      lighter becomes a question, and the plan moves only when you say so.</p>
+  </section>
+
+  <section class="section">
+    <h2>Twelve weeks, and what moved them</h2>
+    <p>A plan is not a spreadsheet you fall behind on. It is a shape, and it
+      changes when you do — an example block, and the moments that bent it.</p>
+    <div class="block">
+      <div class="chart">
+        <div class="bars">
+          <div class="wk"><i style="height:46%"></i></div>
+          <div class="wk"><i style="height:54%"></i></div>
+          <div class="wk hard"><i style="height:64%"></i></div>
+          <div class="wk easy"><i style="height:30%"></i></div>
+          <div class="wk"><i style="height:58%"></i></div>
+          <div class="wk"><i style="height:52%"></i></div>
+          <div class="wk hard"><i style="height:72%"></i></div>
+          <div class="wk easy"><i style="height:34%"></i></div>
+          <div class="wk"><i style="height:66%"></i></div>
+          <div class="wk hard"><i style="height:80%"></i></div>
+          <div class="wk hard"><i style="height:88%"></i></div>
+          <div class="wk easy"><i style="height:36%"></i></div>
+        </div>
+        <div class="weeks">
+          <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          <span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span>
+        </div>
+      </div>
+      <div class="keys">
+        <span class="key b"><b></b>Building</span>
+        <span class="key h"><b></b>Hard week</span>
+        <span class="key e"><b></b>Easier on purpose</span>
+      </div>
+    </div>
+    <div class="moments">
+      <div class="moment"><span class="w">Week 2</span>
+        <span class="t"><em>"I've only got dumbbells until Thursday."</em>
+          The week is rebuilt around what you can actually reach.</span></div>
+      <div class="moment"><span class="w">Week 5</span>
+        <span class="t"><em>"Honestly I've got nothing today."</em>
+          It asks whether to ease off or hold — and waits for your answer.</span></div>
+      <div class="moment"><span class="w">Week 9</span>
+        <span class="t"><em>"I want to be able to run 10k as well."</em>
+          The goal moves, so the shape of the next block moves with it.</span></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What it does for you</h2>
+    <div class="cols">
+      <div class="col"><h3>Plans around what you have</h3>
+        <p>The days you can train, the time you can give it, and the equipment
+          you can actually get to that week.</p></div>
+      <div class="col"><h3>Leads the session</h3>
+        <p>Set by set on your wrist, so you are not reading a screen between
+          efforts.</p></div>
+      <div class="col"><h3>Watches the limits you set</h3>
+        <p>Heart rate against ceilings you choose. It says something when you
+          cross one; it does not decide for you.</p></div>
+      <div class="col"><h3>Keeps the thread</h3>
+        <p>What you told it in week two still counts in week nine. You should
+          never have to repeat yourself.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Pick the voice that works on you</h2>
+    <p>Motivation is personal. The training underneath is the same; the coach
+      delivering it is yours to choose, and you can change your mind whenever
+      you like.</p>
+    <div class="coaches">
+      <span class="coach">Drill Sergeant</span>
+      <span class="coach">Scientist</span>
+      <span class="coach">Zen Coach</span>
+      <span class="coach">Gym Buddy</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Your data</h2>
+    <p>Coaching you means holding information about your training and your
+      health, and that deserves a straight answer rather than a paragraph of
+      reassurance. A full privacy notice will be published here before Solomany
+      is available, and it will say plainly what is held, why, for how long, and
+      how to have it deleted.</p>
+  </section>
+
+  <section class="section">
+    <h2>Where it is</h2>
+    <p>Solomany is in development and not yet available. This page will say so
+      when that changes.</p>
+    <p>Enquiries — <a href="mailto:hello@solomany.com">hello@solomany.com</a></p>
+  </section>
+
+  <!-- ===================================================================
+       THE ONE THING TO CHANGE WHEN THE REGISTERED OFFICE ARRIVES.
+
+       Replace the whole <span> below with the address as Companies House
+       records it, e.g.
+
+           <span>Suite 4, 12 Example Street, London EC1A 1AA</span>
+
+       Keep it plain text with no class, so it reads as the rest of the
+       footer rather than as a placeholder. Nothing else on the page needs
+       touching.
+
+       It is deliberately not injected by JavaScript: a UK company must show
+       its registered office on its website, and a legally required
+       disclosure should not disappear if a script fails.
+       =================================================================== -->
+  <footer>
+    Solomany Fitness is a product of Solomany Limited, a company registered in
+    England and Wales, company number 17474115. Registered office
+    <span class="pending">[ address pending ]</span>.
+    <a href="mailto:hello@solomany.com">hello@solomany.com</a>
+  </footer>
+</div>
