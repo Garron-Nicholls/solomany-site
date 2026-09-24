@@ -208,15 +208,19 @@
   }
 
   /* --- the product, drawn in its own language rather than screenshotted --- */
+  /* Stretching is right for the phones — equal height, tops and feet in line.
+     It was wrong only for the watch, which was growing to match them. So the
+     row stretches as it did and the watch opts out on its own. Turning it off
+     for everything is what made one phone shorter than the other. */
   .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px;
-           align-items:start}
+           align-items:stretch}
   /* On a phone these swipe rather than stack. Each card sits at 82% so the
      next one peeks in from the right — the peek is the affordance, so nothing
      has to say "swipe". Snapping makes it settle on a card rather than
      anywhere. Bled to the screen edges so the peek is not cut off by the
      page gutter. */
   @media (max-width:620px){
-    .screens{display:flex;align-items:flex-start;overflow-x:auto;
+    .screens{display:flex;align-items:stretch;overflow-x:auto;
              scroll-snap-type:x mandatory;gap:14px;margin-inline:-20px;
              padding-inline:20px;scrollbar-width:none;
              -webkit-overflow-scrolling:touch}
@@ -260,9 +264,10 @@
      This shape was already here once and never rendered: the flex row was
      stretching it, so the aspect ratio never applied and the elliptical radius
      was being drawn on a box twice the height it should have been. */
-  .watch-frame{flex:0 0 auto;align-self:center;justify-self:center;
-               width:206px;max-width:66%;aspect-ratio:206/250;
-               scroll-snap-align:center;display:block}
+  .watch-stack{flex:0 0 82%;align-self:center;justify-self:center;
+               display:flex;flex-direction:column;align-items:center;gap:20px;
+               scroll-snap-align:center}
+  .watch-frame{width:206px;max-width:100%;aspect-ratio:206/250;display:block}
   .screen.watch{width:100%;height:100%;background:#000;border:1px solid #2a2f39;
                 border-radius:52px/58px;padding:22px 20px;overflow:hidden;
                 display:flex;flex-direction:column;justify-content:center;
@@ -277,6 +282,20 @@
   .screen.watch .s-rule{margin-block:9px}
   .screen.watch .s-hr{margin-top:0;justify-content:center;font-size:9.5px}
   .screen.watch .s-act{margin-top:10px;padding-top:7px;font-size:9px;letter-spacing:.2em}
+  /* The plan page's own bottom row: start, and the mic that talks to the
+     coach. Geometry from WatchPlanPage — a 44px brass circle beside a 36px
+     surface circle with a hairline border and a brass mic. */
+  .w-controls{display:flex;align-items:center;justify-content:center;gap:18px;
+              margin-top:auto;padding-top:12px}
+  .w-controls .go{width:40px;height:40px;border-radius:50%;background:var(--brass);
+                  display:flex;align-items:center;justify-content:center}
+  .w-controls .go svg{width:14px;height:14px;fill:var(--ground)}
+  .w-controls .talk{width:33px;height:33px;border-radius:50%;background:var(--surface);
+                    border:1.5px solid var(--surface2);display:flex;
+                    align-items:center;justify-content:center}
+  .w-controls .talk svg{width:12px;height:12px;fill:var(--brass)}
+  .screen.watch.plan{justify-content:flex-start;padding-block:18px 16px}
+  .screen.watch.plan .s-voice{font-size:13px;margin:0;color:var(--ink-dim)}
   .screen{border:1px solid var(--rule-strong);border-radius:22px;padding:14px 13px 16px;
           background:var(--ground);display:flex;flex-direction:column;gap:0;min-width:0}
   .screen .bar{display:flex;align-items:center;justify-content:space-between;
@@ -378,6 +397,27 @@
           Breathe, then brace before you unrack.</p>
         <div class="s-act">Log the set</div>
       </div>
+      <div class="watch-stack">
+
+      <div class="watch-frame">
+      <div class="screen watch plan">
+        <div class="w-top"><span class="ring" style="--fill:.2" aria-hidden="true"></span>
+          <span class="s-cap" style="margin:0">Today's Plan</span></div>
+        <div class="s-rule"></div>
+        <p class="s-fig" style="font-size:40px;margin-top:6px">4</p>
+        <p class="s-figcap">movements · about 38 min</p>
+        <p class="s-voice" style="margin-top:8px">Ready when you are</p>
+        <div class="w-controls">
+          <span class="go" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+          </span>
+          <span class="talk" aria-label="Talk to your coach about today's plan" role="img">
+            <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V22h2v-3.08A7 7 0 0 0 19 12z"/></svg>
+          </span>
+        </div>
+      </div>
+      </div>
+
       <div class="watch-frame">
       <div class="screen watch">
         <div class="w-top"><span class="ring" style="--fill:.6" aria-hidden="true"></span>
@@ -388,6 +428,8 @@
         <div class="s-hr"><b aria-hidden="true"></b>142 BPM</div>
         <div class="s-act">Log the set</div>
       </div>
+      </div>
+
       </div>
     </div>
     <p class="caption">Today and mid-session on the phone, and the set on the wrist</p>
