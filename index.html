@@ -230,10 +230,66 @@
   /* The exchange is a screen in the app, so it is shown as one rather than
      as page copy. Narrower than the page: a conversation at 760px does not
      look like a phone. */
-  .screen.talk{max-width:420px;margin-top:22px}
+  .screen.talk{max-width:100%;margin-top:0}
   .screen.talk .turns{border:0;margin:0;padding:0}
   .screen.talk .turn{padding-block:11px}
   .screen.talk .turn q{font-size:15.5px;max-width:88%}
+  /* The chart screen: the ask, the answer, and the thing it drew. The bars
+     reuse the page's own block chart at card scale, so the drawing on the
+     phone and the drawing on the page are the same object. */
+  /* AskForAChartView. The ask is a rule with a word at the end of it, not a
+     control; the drawing carries its own axis. No persona chip — this screen
+     answers with a chart, so the chart is the reply. */
+  .asker{display:flex;align-items:baseline;gap:14px;margin-top:16px}
+  .asker .field{flex:1;font-family:var(--voice);font-size:14.5px;
+                color:var(--ink-dim);border-bottom:1px solid var(--rule-strong);
+                padding-bottom:7px}
+  .asker .go{font-family:var(--structure);font-stretch:condensed;
+             text-transform:uppercase;letter-spacing:.18em;font-size:10.5px;
+             font-weight:600;color:var(--ink-dim)}
+  .askecho{margin:22px 0 0;text-align:right;font-family:var(--voice);
+           font-size:15px;color:var(--ink-dim);line-height:1.5}
+  .mini{margin-top:26px}
+  .mini .mtitle{font-family:var(--structure);font-stretch:condensed;
+                text-transform:uppercase;letter-spacing:.01em;font-size:15px;
+                font-weight:700;margin:0 0 14px}
+  .mplot{position:relative;padding-right:26px;height:106px}
+  .mplot .mgrid{position:absolute;inset:0 26px 0 0;display:flex;
+                flex-direction:column;justify-content:space-between}
+  .mplot .mgrid i{display:block;height:1px;background:var(--rule)}
+  .mplot .maxis{position:absolute;inset:0 0 0 auto;display:flex;
+                flex-direction:column;justify-content:space-between;
+                align-items:flex-end}
+  .mplot .maxis span{font-family:var(--structure);font-stretch:condensed;
+                     font-variant-numeric:tabular-nums;font-size:10px;
+                     color:var(--ink-dim);transform:translateY(-50%)}
+  .mbars{position:absolute;inset:0 26px 0 0;display:flex;align-items:flex-end;
+         gap:5px}
+  .mbars i{flex:1;display:block;background:var(--brass)}
+  .mweeks{display:flex;gap:5px;margin:7px 26px 0 0}
+  .mweeks span{flex:1;text-align:center;font-family:var(--structure);
+               font-stretch:condensed;font-variant-numeric:tabular-nums;
+               font-size:10px;color:var(--ink-dim)}
+  .mnote{font-family:var(--structure);font-stretch:condensed;
+         text-transform:uppercase;letter-spacing:.14em;font-size:9px;
+         color:var(--ink-dim);font-weight:600;margin-top:18px;line-height:1.7}
+  .share{margin-top:auto;padding-top:16px;display:flex;align-items:center;
+         gap:8px;font-family:var(--structure);font-stretch:condensed;
+         text-transform:uppercase;letter-spacing:.18em;font-size:10.5px;
+         font-weight:600;color:var(--ink-dim)}
+  .share svg{width:13px;height:13px;fill:none;stroke:var(--ink-dim);
+             stroke-width:1.6;flex:none}
+  .screen.talk{display:flex;flex-direction:column}
+  .screen.talk .composer{margin-top:auto}
+  .talkrow{display:grid;grid-template-columns:1fr 1fr;gap:26px;
+           align-items:stretch;margin-top:22px}
+  @media (max-width:620px){
+    .talkrow{display:flex;align-items:stretch;overflow-x:auto;
+             scroll-snap-type:x mandatory;gap:14px;margin-inline:-20px;
+             padding-inline:20px;scrollbar-width:none}
+    .talkrow::-webkit-scrollbar{display:none}
+    .talkrow>.screen{flex:0 0 82%;scroll-snap-align:center}
+  }
   .composer{display:flex;align-items:center;gap:9px;margin-top:14px;
             padding-top:13px;border-top:1px solid var(--rule)}
   .composer .mic{flex:0 0 auto;width:26px;height:26px;border-radius:50%;
@@ -440,6 +496,7 @@
     <p>You say what you want in ordinary words. Solomany builds the training to
       get you there, leads each session as you do it, and tells you afterwards
       what actually happened against what it asked for.</p>
+    <div class="talkrow">
     <div class="screen talk">
       <div class="bar"><span>17:42</span><span class="pill" aria-hidden="true"></span><span>96%</span></div>
       <p class="s-cap">Talk to your coach</p>
@@ -458,6 +515,31 @@
         </span>
         <span class="field">Message your coach…</span>
       </div>
+    </div>
+
+    <div class="screen talk">
+      <div class="bar"><span>17:48</span><span class="pill" aria-hidden="true"></span><span>95%</span></div>
+      <p class="s-cap">Ask for a chart…</p>
+      <div class="asker"><span class="field">&nbsp;</span><span class="go">Ask</span></div>
+      <p class="askecho">How many sessions have I done each week?</p>
+      <div class="mini">
+        <p class="mtitle">Sessions, by week</p>
+        <div class="mplot">
+          <div class="mgrid" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="mbars" role="img" aria-label="Sessions per week: three, four, three, four, four, five, four, five.">
+            <i style="height:50%"></i><i style="height:67%"></i><i style="height:50%"></i>
+            <i style="height:67%"></i><i style="height:67%"></i><i style="height:83%"></i>
+            <i style="height:67%"></i><i style="height:83%"></i>
+          </div>
+          <div class="maxis" aria-hidden="true"><span>6</span><span>4</span><span>2</span></div>
+        </div>
+        <div class="mweeks"><span>1</span><span>2</span><span>3</span><span>4</span>
+          <span>5</span><span>6</span><span>7</span><span>8</span></div>
+        <p class="mnote">How many times you trained, week by week. A day with
+          anything logged counts once, so this counts occasions rather than work.</p>
+      </div>
+      <span class="share"><svg viewBox="0 0 24 24"><path d="M12 15V3m0 0L8 7m4-4l4 4"/><path d="M4 14v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>Share</span>
+    </div>
     </div>
     <p style="margin-top:16px">It never rewrites your week quietly. A reason to go
       lighter becomes a question, and the plan moves only when you say so.</p>
