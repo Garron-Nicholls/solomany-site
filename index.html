@@ -212,20 +212,24 @@
      It was wrong only for the watch, which was growing to match them. So the
      row stretches as it did and the watch opts out on its own. Turning it off
      for everything is what made one phone shorter than the other. */
-  .screens{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:24px;
-           align-items:stretch}
+  .screens{display:grid;grid-template-columns:1fr 1fr auto;gap:26px;
+           margin-top:24px;align-items:stretch;
+           position:relative;left:50%;transform:translateX(-50%);
+           width:min(1000px,calc(100vw - 40px))}
   /* On a phone these swipe rather than stack. Each card sits at 82% so the
      next one peeks in from the right — the peek is the affordance, so nothing
      has to say "swipe". Snapping makes it settle on a card rather than
      anywhere. Bled to the screen edges so the peek is not cut off by the
      page gutter. */
-  @media (max-width:620px){
-    .screens{display:flex;align-items:stretch;overflow-x:auto;
+  @media (max-width:760px){
+    .screens{display:flex;align-items:stretch;
+             position:static;left:auto;transform:none;width:auto;overflow-x:auto;
              scroll-snap-type:x mandatory;gap:14px;margin-inline:-20px;
              padding-inline:20px;scrollbar-width:none;
              -webkit-overflow-scrolling:touch}
     .screens::-webkit-scrollbar{display:none}
     .screen{flex:0 0 82%;scroll-snap-align:center}
+    .watch-stack{flex:0 0 82%}
   }
   /* The exchange is a screen in the app, so it is shown as one rather than
      as page copy. Narrower than the page: a conversation at 760px does not
@@ -320,7 +324,7 @@
      This shape was already here once and never rendered: the flex row was
      stretching it, so the aspect ratio never applied and the elliptical radius
      was being drawn on a box twice the height it should have been. */
-  .watch-stack{flex:0 0 82%;align-self:center;justify-self:center;
+  .watch-stack{align-self:center;justify-self:center;
                display:flex;flex-direction:column;align-items:center;gap:20px;
                scroll-snap-align:center}
   .watch-frame{width:206px;max-width:100%;aspect-ratio:206/250;display:block}
